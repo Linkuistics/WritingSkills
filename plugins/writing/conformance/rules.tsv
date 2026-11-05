@@ -1,0 +1,32 @@
+# The rules that the files of the writing pack own, as data.
+#
+# Grove's `plugins/grove/conformance/rules.tsv` states the five tab-separated
+# columns: rule, owner, class, load and phrase. Grove's
+# `docs/specs/external-pack-contract.md`, "Conformance", states what a run
+# checks with this manifest alone and in the aggregate with core.
+#
+# Each owner is a file that this pack ships. A rule ID is unique across this
+# manifest and every manifest that a run supplies.
+art-works-in-the-contracts-medium	grove-art/SKILL.md	B	static({art})	Do not introduce a medium the contract does not name
+figure-carries-the-relation-and-states-its-role	grove-art/SKILL.md	B	static({art})	Every figure states its role
+declined-figure-names-one-of-three-reasons	grove-art/SKILL.md	B	static({art})	a contract's medium is reopened by that record and by nothing else
+copy-edit-does-not-restructure	grove-copy-edit/SKILL.md	B	static({copy-edit})	a structural finding is sent back as a `draft` re-run leaf, never fixed here
+copy-edit-operative-tests	grove-copy-edit/SKILL.md	B	static({copy-edit})	A figure of speech replaced by the mechanism it stood for
+draft-requires-a-structure-brief	grove-draft/SKILL.md	B+S	static({draft})	If this document has no structure brief, stop and say so
+structure-brief-is-three-citable-things	grove-draft/SKILL.md	B	static({draft})	The existence of a node file is not the test
+draft-owns-structure-and-technical-truth	grove-draft/SKILL.md	B	static({draft})	every claim about the subject is checked against the subject
+editorial-stage-is-a-producer	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	a **producer, not a reviewer**
+whole-document-one-charter	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	changes only what its own charter owns
+charter-overflow-is-passed-not-absorbed	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	recorded and passed on, **never absorbed**
+editorial-chain-is-lazy-and-mandatory	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	unless a live later sibling under this node already holds that stage
+no-stage-is-skipped-on-judgement	editorial-family/SKILL.md	B+S	static({draft,copy-edit,art,proof})	Do not skip a stage because you judge it will find nothing
+stage-leaf-carries-the-documents-stem	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	carries the document's bare stem as its whole slug
+handed-forward-list-is-in-the-node-brief	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	under a running `## Handed forward` list naming the owning stage
+send-back-is-a-contiguous-run	editorial-family/SKILL.md	B+S	static({draft,copy-edit,art,proof})	a **contiguous run** that begins at the owning stage and ends at `proof`
+second-re-run-is-an-escalation	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	A second re-run of one stage against one document is an escalation, not a third leaf
+stage-review-allowance-is-the-producers	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	The next stage is not that review
+stage-leaves-it-green	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	passing whatever gate the repository runs over it
+proof-reads-for-whole-document-coherence	grove-proof/SKILL.md	B	static({proof})	coherence across the whole document
+proof-clears-the-hand-forward-list	grove-proof/SKILL.md	B	static({proof})	An entry left in the list when this stage retires is a defect nobody owns
+proof-cuts-nothing-unless-it-sends-work-back	grove-proof/SKILL.md	B	static({proof})	the node closes when a `proof` retires having sent nothing back
+proof-is-the-stated-fallback	grove-proof/SKILL.md	B	static({proof})	a proof session that finds nothing has still done its job
