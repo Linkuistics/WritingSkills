@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "writing",
-  "description": "Grove's editorial kinds: the draft, copy-edit, art and proof stages of a document's publishing pipeline, and their shared procedure.",
+  "description": "Grove's editorial kinds: the draft, copy-edit, art and proof stages of a document's publishing pipeline, and their shared procedure. The writing craft skills: technical communication and code walkthrough authoring.",
   "author": {
     "name": "Antony Blakey",
     "email": "antony.blakey@gmail.com"
@@ -9,11 +9,14 @@
   "repository": "https://github.com/Linkuistics/WritingSkills",
   "license": "Apache-2.0",
   "dependencies": ["grove"],
+  "skills": ["./craft/"],
   "keywords": [
     "grove",
     "methodology",
     "editorial",
     "writing",
+    "technical-communication",
+    "walkthrough",
     "agent-workflow"
   ]
 }

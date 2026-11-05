@@ -3,6 +3,9 @@ version: '3'
 # The writing pack's checks. Grove's `docs/specs/external-pack-contract.md`,
 # "The checker without a copy", states these tasks and their two variables.
 #
+# The tasks check:tc-* check the craft skill technical-communication. They came
+# from Grove's scripts/check.sh and need no Grove checkout.
+#
 # GROVE_COMMIT names the Grove revision that this pack checks against. That
 # revision gives both the conformance runner and core's content. A published
 # pack commit records only a commit that Grove's public remote holds, and its
@@ -68,8 +71,46 @@ tasks:
         fi
         claude plugin validate '{{.PACK}}'
 
+  check:tc-checker:
+    desc: Run the self-test of the technical-communication checker
+    cmds:
+      # `-I` keeps the interpreter from importing anything out of the current
+      # directory or the user's site.
+      - python3 -I '{{.ROOT_DIR}}/{{.PACK}}/craft/technical-communication/scripts/ste-lint.py' --selftest
+
+  check:tc-hook-lint:
+    desc: Lint the hook guard tc-hook and the Pi load check with ShellCheck
+    cmds:
+      - shellcheck '{{.ROOT_DIR}}/{{.PACK}}/craft/technical-communication/scripts/tc-hook' '{{.ROOT_DIR}}/scripts/pi-extension-load.test.sh'
+
+  check:tc-pi:
+    desc: Load the technical-communication Pi extension in a real Pi, with its controls, or skip when Pi is not installed
+    cmds:
+      - bash '{{.ROOT_DIR}}/scripts/pi-extension-load.test.sh'
+
   check:
     desc: Run every check of the pack
     cmds:
       - task: check:plugin
+      - task: check:tc-checker
+      - task: check:tc-hook-lint
+      - task: check:tc-pi
       - task: check:conformance
+
+  design:technical-communication:
+    desc: Serve the technical-communication design views at localhost (default port 8770)
+    vars:
+      PORT: '{{.PORT | default "8770"}}'
+    cmds:
+      - python3 -m http.server {{.PORT}} --bind 127.0.0.1 --directory '{{.ROOT_DIR}}/docs/design/technical-communication'
+
+  design:technical-communication:render:
+    desc: Export the technical-communication design views from their D2 sources
+    dir: docs/design/technical-communication
+    sources:
+      - '*.d2'
+    generates:
+      - '*.svg'
+    cmds:
+      - for: sources
+        cmd: d2 --layout=elk --theme=0 --dark-theme=200 '{{.ITEM}}' '{{trimSuffix ".d2" .ITEM}}.svg'
