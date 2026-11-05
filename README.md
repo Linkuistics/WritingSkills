@@ -36,12 +36,48 @@ these parts:
 - `scripts/`: the checker `ste-lint.py`, the hook core `tc_hook.py` and the
   hook guard `tc-hook`.
 - `harnesses/`: the Codex hooks file and the Pi extension.
+- `.claude-plugin/plugin.json` and `hooks/hooks.json`: the manifest and the
+  hooks of the Claude Code hooks plugin.
 - `.codex-plugin/plugin.json`: the manifest of the Codex hooks plugin.
 - `LICENSES/`: the licence of the vendored checker.
 
-This commit adds no Claude Code hooks plugin and no Codex marketplace file.
-Grove's task tree names that later step `writing-hooks-plugins-k209`. Until
-then, Grove's `linkuistics` plugin delivers the always-on layers.
+## Hooks plugins
+
+The always-on layers of `technical-communication` run as hooks. A hook is a
+command that the harness runs at an event, such as the start of a session. Two
+hooks plugins deliver them. Both plugins have the skill directory
+`plugins/writing/craft/technical-communication` as their root, so each hook
+runs `scripts/tc-hook` of that directory.
+
+| Harness | Plugin | Manifest | Hooks file |
+| --- | --- | --- | --- |
+| Claude Code | `technical-communication-hooks` | `.claude-plugin/plugin.json` | `hooks/hooks.json`, which Claude Code reads by default |
+| Codex | `technical-communication` | `.codex-plugin/plugin.json` | `harnesses/codex/hooks.json`, which the manifest names |
+
+Neither plugin holds a skill. Ravel or the writing plugin delivers the skill
+itself.
+
+The Claude Code manifest lists `"skills": []`. Claude Code loads a plugin root
+that holds `SKILL.md`, with no `skills/` directory and no `skills` key, as one
+skill. The empty list stops that, so the hooks plugin adds no second
+`technical-communication` skill. A Ravel user enables this plugin alone and
+receives the hooks without a native copy of the skill.
+
+The Codex manifest names its hooks file. Codex reads the default
+`hooks/hooks.json` only when the manifest has no `hooks` field. The field
+therefore keeps Codex away from the Claude Code hooks file in the same root.
+
+The writing plugin lists `technical-communication-hooks` in its
+`dependencies` and declares no hook. An installation of the writing plugin
+therefore also installs the hooks plugin. A native user of the writing plugin
+keeps the always-on layers, and each hook runs once, also when the user
+installs both plugins. A bare dependency name resolves in the marketplace that
+lists the writing plugin. That marketplace must list the hooks plugin too.
+
+Codex adds a plugin only from a marketplace. The Codex marketplace file
+`.agents/plugins/marketplace.json` at the repository root has the name
+`writing-hooks`. It lists the Codex plugin with a `local` source, at the path
+of the skill directory.
 
 ## Layout
 
@@ -51,13 +87,17 @@ and the Ravel source directory. It has two roots:
 - `skills` holds the four kind skills and the family skill.
 - `craft` holds the two craft skills.
 
+The directory `craft/technical-communication` is also the root of the two
+hooks plugins in [Hooks plugins](#hooks-plugins).
+
 The plugin manifest lists `"skills": ["./craft/"]`. Claude Code scans `skills/`
 by default and adds `craft/`. `plugins/writing/PROVENANCE.md` holds the sources
 of the craft skills.
 
 The repository root holds the files that the pack does not deliver. They are
-this README, the licence, the Taskfile, the documents in `docs/` and the Pi
-load check in `scripts/`.
+this README, the licence, the Taskfile and the documents in `docs/`. The Codex
+marketplace file in `.agents/plugins/` and the scripts in `scripts/` are also
+there. The scripts are the Pi load check and the hook count.
 
 Grove's external pack contract, `docs/specs/external-pack-contract.md` in the
 Grove repository, states the layout, the references between skills and the
@@ -113,13 +153,35 @@ Install the plugin from Grove's marketplace:
 /plugin install writing@linkuistics
 ```
 
-The manifest declares the dependency `grove`, so the installation also adds
-Grove's core. The skills then have the namespace `writing:`, for example
-`writing:grove-draft` and `writing:technical-communication`.
+The manifest declares the dependencies `grove` and
+`technical-communication-hooks`. The installation therefore also adds Grove's
+core and the hooks plugin. The skills then have the namespace `writing:`, for
+example `writing:grove-draft` and `writing:technical-communication`.
+
+To install only the always-on hooks, for example beside Ravel, name the hooks
+plugin alone:
+
+```text
+/plugin install technical-communication-hooks@linkuistics
+```
 
 Grove's marketplace pins the first commit of this pack, which holds only the
-editorial skills. The craft skills reach the marketplace with the Grove change
-that removes Grove's copies of them.
+editorial skills. The craft skills and the hooks plugin reach the marketplace
+with the Grove change that removes Grove's copies of them. That change also
+lists the hooks plugin, so the dependency of the writing plugin resolves.
+
+### Codex hooks plugin
+
+Add the marketplace of this repository and the plugin. Replace `<checkout>`
+with the absolute path of a checkout of this repository:
+
+```sh
+codex plugin marketplace add <checkout>
+codex plugin add technical-communication@writing-hooks
+```
+
+The plugin adds only the hooks. The skill reaches Codex through Ravel or
+through Grove's manual installer.
 
 ### Manual installation
 
@@ -147,9 +209,19 @@ of Grove, under `.cache/grove/`. The `Taskfile.yml` variable `GROVE_COMMIT`
 names that Grove commit. The variable `GROVE_REPOSITORY` names the public Grove
 repository.
 
-- `task check:plugin` checks the Claude Code plugin with
-  `claude plugin validate`, which covers the manifest and the craft skills of
-  `craft/`. It skips when Claude Code is not installed.
+- `task check:plugin` checks both Claude Code plugins with
+  `claude plugin validate`: the writing plugin, with the craft skills of
+  `craft/`, and the hooks plugin. It skips when Claude Code is not installed.
+- `task check:hooks` runs `scripts/hook-count.py`. The script counts the hook
+  declarations of three installations: the writing plugin alone, the hooks
+  plugin alone, and both. For each plugin, it reads the default
+  `hooks/hooks.json`, the manifest's `hooks` field and the dependencies, as
+  Claude Code does. Each installation must give one declaration for each of
+  the six hooks. The script also checks the empty `skills` list and the hooks
+  field of the Codex manifest. Its controls then mutate scratch copies of the
+  pack, for example with a second declaration, and each control must fail.
+  The `grove` plugin is a dependency of the writing plugin, and the task reads
+  it from the Grove checkout.
 - `task check:tc-checker` runs the self-test of the checker `ste-lint.py`.
 - `task check:tc-hook-lint` runs ShellCheck on the hook guard `tc-hook` and on
   the Pi load check.
@@ -174,6 +246,7 @@ alone. The aggregate reads each editorial skill and each moved rule once.
 | --- | --- |
 | `technical-communication` | `python3`, version 3.9 or later, for the checker and the hook core. A POSIX `/bin/sh` for the hook guard `tc-hook` |
 | `writing-code-walkthroughs` | None |
+| The hooks plugins | `python3` and `/bin/sh`, as for `technical-communication`. Each hook runs `/bin/sh scripts/tc-hook` |
 | `task check` | Bash, Git, Task, Python 3 and ShellCheck. Claude Code for `check:plugin`, and Pi for `check:tc-pi`. Each of those two skips when its tool is not installed |
 | `task design:technical-communication:render` | D2 |
 
@@ -202,6 +275,19 @@ The craft skills and their documents come from Grove commit
   which are now in `plugins/writing/PROVENANCE.md`
 - Each document in [Documents](#documents), at the same path
 - `scripts/pi-extension-load.test.sh`
+
+The two hooks plugins come from Grove commit
+`31ec9117c9dacfe993e80313addd432f2930d679`, with these changes:
+
+- `craft/technical-communication/hooks/hooks.json` is Grove's
+  `plugins/linkuistics/hooks/hooks.json`. Its script path loses the part
+  `skills/technical-communication/`, because the plugin root is now the skill
+  directory.
+- `.agents/plugins/marketplace.json` is Grove's file of the same path. Its name
+  is `writing-hooks` in place of `linkuistics-hooks`, its display name is
+  "Writing hooks", and its path names the skill directory in this pack.
+- `craft/technical-communication/.claude-plugin/plugin.json` and
+  `scripts/hook-count.py` are new.
 
 Grove keeps the full history of these files. This repository imports none of
 it.
