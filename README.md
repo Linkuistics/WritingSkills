@@ -95,11 +95,9 @@ repository.
 - `task check:plugin` checks the Claude Code plugin with
   `claude plugin validate`. It skips when Claude Code is not installed.
 
-`GROVE_COMMIT` names Grove commit `f45c5a53796f2a5bf634fec340cb0d7aef63e184`,
-which still ships Grove's own copies of these skills. With that commit, the
-pack passes alone. The aggregate fails, because it reads each editorial skill
-and each moved rule twice. A later commit of this pack names the Grove commit
-that removes Grove's copies, and its aggregate passes.
+`GROVE_COMMIT` names Grove commit `31ec9117c9dacfe993e80313addd432f2930d679`,
+which removed Grove's own copies of these skills. The pack passes alone. The
+aggregate reads each editorial skill and each moved rule once.
 
 ## Provenance
 
@@ -115,6 +113,10 @@ at these paths:
 
 Grove keeps the full history of these files. This repository imports none of
 it.
+
+Grove commit `31ec9117c9dacfe993e80313addd432f2930d679` removed Grove's copies
+of these files. `GROVE_COMMIT` names that commit, so the aggregate check reads
+each editorial skill once.
 
 The move changed the first two paragraphs of each kind skill. The first
 paragraph is now the opening of Grove's external pack contract, and the second
