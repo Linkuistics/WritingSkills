@@ -35,8 +35,8 @@ it themselves, so it needs no support from a harness.
   terminal that opened the session.
 - **Each harness's own switch.** Rejected: each works on one harness only, and
   most turn off too much. Claude Code's `disableAllHooks` and Codex's
-  `features.hooks` also stop the human's other hooks, and disabling the Claude
-  Code plugin removes every `linkuistics` skill. Nothing reopens this while the
+  `features.hooks` also stop the human's other hooks. Disabling the Claude Code
+  hooks plugin works on Claude Code only. Nothing reopens this while the
   skill runs on more than one harness.
 - **A key in a configuration file.** Rejected: no configuration file is read by
   every harness. Nothing reopens this.

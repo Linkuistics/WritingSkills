@@ -165,10 +165,10 @@ plugin alone:
 /plugin install technical-communication-hooks@linkuistics
 ```
 
-Grove's marketplace pins the first commit of this pack, which holds only the
-editorial skills. The craft skills and the hooks plugin reach the marketplace
-with the Grove change that removes Grove's copies of them. That change also
-lists the hooks plugin, so the dependency of the writing plugin resolves.
+Grove's marketplace pins commit `4cafb0fd8e72dacdeea9d960cbdaf9f4850aec8f` of
+this pack for both plugins. Grove commit `4cfac6295881` made that change when it
+removed Grove's copies of the craft skills. The marketplace lists the hooks
+plugin, so the dependency of the writing plugin resolves there.
 
 ### Codex hooks plugin
 
@@ -191,10 +191,10 @@ Grove's manual installer links the skills of both roots of a pack:
 <grove checkout>/plugins/install.sh --pack <writing checkout>/plugins/writing
 ```
 
-Until Grove removes its copies of the craft skills, Grove's `linkuistics`
-plugin ships them too. The installer refuses a skill name that two scanned
-plugins ship. It therefore does not install the craft skills of this pack
-beside a Grove checkout that still ships them.
+The installer also links the Pi extension of `technical-communication` into
+`~/.pi/agent/extensions/`. It refuses a skill name that two scanned plugins
+ship. A Grove checkout before commit `4cfac6295881` ships its own copies of the
+craft skills, so use a Grove checkout of that commit or a later one.
 
 ## Checks
 
@@ -236,9 +236,10 @@ repository.
 The three `check:tc-*` tasks are the checks of `technical-communication`. They
 came from Grove's `scripts/check.sh` and need no Grove checkout.
 
-`GROVE_COMMIT` names Grove commit `31ec9117c9dacfe993e80313addd432f2930d679`,
-which removed Grove's own copies of the editorial skills. The pack passes
-alone. The aggregate reads each editorial skill and each moved rule once.
+`GROVE_COMMIT` names Grove commit `4cfac62958815219ba5a71941674244a05ff9b56`, which removed Grove's own
+copies of the craft skills, their hooks and their documents. Grove's copies of
+the editorial skills went earlier. The pack passes alone. The aggregate reads
+each editorial skill and each moved rule once.
 
 ## Tool requirements
 
@@ -293,8 +294,9 @@ Grove keeps the full history of these files. This repository imports none of
 it.
 
 Grove commit `31ec9117c9dacfe993e80313addd432f2930d679` removed Grove's copies
-of the editorial files. `GROVE_COMMIT` names that commit, so the aggregate
-check reads each editorial skill once.
+of the editorial files. Grove commit `4cfac62958815219ba5a71941674244a05ff9b56` removed Grove's copies of the
+craft skills, the hooks and the moved documents. `GROVE_COMMIT` names the
+second commit.
 
 The move changed the first two paragraphs of each kind skill. The first
 paragraph is now the opening of Grove's external pack contract, and the second
@@ -316,8 +318,23 @@ The move of the craft skills made these changes:
 - `plugins/writing/PROVENANCE.md` has its own opening paragraphs. Two paths in
   the section of `technical-communication` start with `craft/`.
 
-No other text changed. The moved documents still describe the delivery through
-Grove's `linkuistics` plugin, which is true until Grove removes its copies.
+The commit that records Grove's removal corrected the claims that the moved
+documents made about the delivery through Grove's `linkuistics` plugin and the
+checks of Grove's `scripts/check.sh`:
+
+- `docs/specs/technical-communication.md` states the layout in this pack. It
+  names the hooks plugin as the Claude Code entry, Grove's
+  `install.sh --pack` as the Pi route and the `check:tc-*` tasks as the checks.
+- `docs/TECHNICAL-COMMUNICATION.md` installs the writing plugin or the hooks
+  plugin, the Codex marketplace of this repository and Grove's installer with
+  `--pack`. Its checker paths and its issue link name this repository.
+- `docs/adr/the-off-file-is-the-only-switch.md` names the Claude Code hooks
+  plugin in place of the `linkuistics` plugin.
+- `docs/adr/technical-communication-carries-no-standard-text.md` names the
+  routes from this repository and the earlier publication from Grove.
+
+The dated records keep their bytes. They are the publication review, the
+harness survey and the evaluation records.
 
 `technical-communication` vendors the checker of
 [danyuchn/asd-ste100-skill](https://github.com/danyuchn/asd-ste100-skill),

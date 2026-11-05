@@ -55,29 +55,37 @@ run the checker before it sends a document.
 
 All the steps below are one-time steps.
 
-**Claude Code.** Install the `linkuistics` plugin. Turn on auto-update for the
-marketplace, so each new version reaches you.
+**Claude Code.** Install the `writing` plugin from Grove's marketplace. Turn on
+auto-update for the marketplace, so each new version reaches you.
 
 ```text
 /plugin marketplace add Linkuistics/grove
-/plugin install linkuistics@linkuistics
+/plugin install writing@linkuistics
 ```
 
-Start a new session. The layers are on.
+The `writing` plugin holds the skill. It declares the hooks plugin
+`technical-communication-hooks` as a dependency, so the installation adds the
+layers too. If Ravel gives you the skill, install the hooks plugin alone:
 
-**Codex.** The skill arrives with the other skills, as the
-[README](https://github.com/Linkuistics/grove/blob/main/README.md#install-the-skill-plugins) says. The layers are in a
+```text
+/plugin install technical-communication-hooks@linkuistics
+```
+
+The hooks plugin holds no skill. Start a new session. The layers are on.
+
+**Codex.** The skill arrives through Ravel or through Grove's manual installer,
+as the [README](../README.md#install) of this repository says. The layers are in a
 separate hooks plugin, which you add and trust yourself. Nothing in this
 repository writes trust into your configuration.
 
 ```sh
-# 1. Add the marketplace.
-codex plugin marketplace add Linkuistics/grove
+# 1. Add the marketplace of this repository.
+codex plugin marketplace add Linkuistics/WritingSkills
 # Or, to use a checkout:
-codex plugin marketplace add /path/to/grove-checkout
+codex plugin marketplace add /path/to/writing-checkout
 
 # 2. Install the plugin. This copies the skill directory into Codex's cache.
-codex plugin add technical-communication@linkuistics-hooks
+codex plugin add technical-communication@writing-hooks
 ```
 
 Then start `codex`. Codex shows a "Hooks need review" prompt. Review the six
@@ -90,18 +98,19 @@ Before you trust the plugin, Codex has the skill and no layer runs.
 To refresh the plugin after an update, run step 2 again. Trust stays, because
 the entries never change shape.
 
-**Pi.** Run the installer from the main checkout of this repository.
+**Pi.** Run Grove's installer from the main checkout of Grove, and name the
+plugin directory of a checkout of this repository.
 
 ```sh
-./plugins/install.sh
+./plugins/install.sh --pack /path/to/writing-checkout/plugins/writing
 ```
 
 It links the skill into `~/.pi/agent/skills`. It also links the extension into
 `~/.pi/agent/extensions`. Restart Pi once after the link first exists. Pi asks
 for no trust. To start Pi without any extension for one run, use `pi -ne`.
 
-**Gemini CLI.** `./plugins/install.sh` links the skill when Gemini CLI is
-installed. No layer runs there. Gemini CLI gets the skill only.
+**Gemini CLI.** The same `./plugins/install.sh --pack` links the skill when
+Gemini CLI is installed. No layer runs there. Gemini CLI gets the skill only.
 
 ## Turn it off and on
 
@@ -203,8 +212,8 @@ The checker needs Python 3.9 or later and nothing else. It reads files, or
 standard input.
 
 ```sh
-python3 plugins/linkuistics/skills/technical-communication/scripts/ste-lint.py README.md
-echo "Run the tests before you merge." | python3 plugins/linkuistics/skills/technical-communication/scripts/ste-lint.py
+python3 plugins/writing/craft/technical-communication/scripts/ste-lint.py README.md
+echo "Run the tests before you merge." | python3 plugins/writing/craft/technical-communication/scripts/ste-lint.py
 ```
 
 The checker uses patterns, not a parser. It can raise a false alarm. When a
@@ -213,6 +222,6 @@ finding is wrong, record it as a failure (below).
 ## Report a failure
 
 Log each failure that you see in use as an issue on
-[`Linkuistics/grove`](https://github.com/Linkuistics/grove/issues). Say which
+[`Linkuistics/WritingSkills`](https://github.com/Linkuistics/WritingSkills/issues). Say which
 harness and model you used, what the model wrote, and what you expected. A later
 grove reads these issues and acts on them.

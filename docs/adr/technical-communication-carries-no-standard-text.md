@@ -7,13 +7,16 @@ Its name and its description never use the standard's full trademarked title.
 The skill describes itself only as modelled on ASD-STE100.
 
 This binds because publication is a one-way door. The skill ships from a public
-Apache-2.0 repository by four routes. They are the Claude Code marketplace, the
-Codex hooks plugin that `.agents/plugins/marketplace.json` lists, the plugin
-snapshot in every released Grove binary, and `plugins/install.sh`. The
-standard's copyright notice forbids reproduction or publication, in whole or in
-part, without written authority from its owner. Only eight listed groups of
-users are free of that limit. Text in a public commit cannot be taken back from those
-routes or from the history.
+Apache-2.0 repository by four routes. They are Grove's Claude Code marketplace,
+the Codex hooks plugin that `.agents/plugins/marketplace.json` lists, Ravel's
+local sources and Grove's `plugins/install.sh --pack`. Grove published it
+earlier from its own public repository, and the plugin snapshot in each Grove
+binary up to 22.8 still holds it.
+
+The standard's copyright notice forbids reproduction or publication, in whole
+or in part, without written authority from its owner. Only eight listed groups
+of users are free of that limit. Text in a public commit cannot be taken back
+from those routes or from the history.
 
 ## Consequences
 

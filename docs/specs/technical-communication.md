@@ -42,15 +42,14 @@ converts the whole document first, as its own change.
 
 ### Layers and layout
 
-Everything except two entry files lives in one skill directory. Claude Code's
-entry is in the plugin root, and Codex's marketplace file is in the repository
-root.
+Everything except the Codex marketplace file lives in one skill directory, in
+the `craft/` root of the writing plugin. That directory is also the root of the
+two hooks plugins. The Codex marketplace file is in the repository root.
 
 ```text
 .agents/plugins/marketplace.json     Codex marketplace that lists the hooks plugin
-plugins/linkuistics/
-├── hooks/hooks.json                 Claude Code entry (the plugin root is required)
-└── skills/technical-communication/
+plugins/writing/
+└── craft/technical-communication/
     ├── SKILL.md                     the skill
     ├── references/                  one file for each section of the standard's Part 1
     ├── always-on/
@@ -60,6 +59,8 @@ plugins/linkuistics/
     │   ├── ste-lint.py              the checker (vendored, then extended)
     │   ├── tc-hook                  POSIX sh guard: finds python3, always exits 0
     │   └── tc_hook.py               the hook core
+    ├── .claude-plugin/plugin.json   Claude Code hooks plugin manifest, with "skills": []
+    ├── hooks/hooks.json             Claude Code entry (the plugin root is required)
     ├── .codex-plugin/plugin.json    Codex manifest; the skill directory is its root
     ├── harnesses/
     │   ├── codex/hooks.json         Codex entries
@@ -67,25 +68,28 @@ plugins/linkuistics/
     └── LICENSES/                    the vendored checker's MIT notice
 ```
 
-- **Claude Code's entry is at the plugin root**, because Claude Code loads
-  always-on plugin hooks only from `hooks/hooks.json` there or from
-  `plugin.json`. A skill's frontmatter hook lasts only while that skill is
-  active.
+- **Claude Code's entry is at the root of the hooks plugin**
+  `technical-communication-hooks`, because Claude Code loads always-on plugin
+  hooks only from `hooks/hooks.json` there or from `plugin.json`. A skill's
+  frontmatter hook lasts only while that skill is active. The root of the hooks
+  plugin is the skill directory. Its manifest lists `"skills": []`, so the
+  plugin adds no second copy of the skill. The writing plugin declares the hooks
+  plugin as a dependency and declares no hook. Each hook therefore runs once,
+  whichever of the two plugins the human installs.
 - **The Codex plugin's root is the skill directory itself.** Its entries then
   reach the scripts through `${PLUGIN_ROOT}/scripts/`, and they work from
   Codex's cache, which holds a copy of the whole directory. The directory has no
   `skills/` subdirectory, so the plugin adds no second copy of the skill.
 - **Codex adds a plugin only from a marketplace.**
   `.agents/plugins/marketplace.json` at the repository root lists the one plugin,
-  `technical-communication`, with the skill directory as its source. Codex reads
-  that file before `.claude-plugin/marketplace.json`, so Claude Code's
-  marketplace stays as it is. The cache copy is a snapshot: after the scripts
+  `technical-communication`, with the skill directory as its source. Claude Code's
+  marketplace is Grove's, which lists the writing plugin and the hooks plugin. The cache copy is a snapshot: after the scripts
   change, the human installs the plugin again to refresh it. Until then the
   cached scripts run, and a cached script that lacks a newer harness name
   does nothing.
 - **The Pi extension finds the skill directory through its own real path.**
-  `install.sh` links it into `~/.pi/agent/extensions/`, so its loaded path is
-  the link.
+  Grove's `plugins/install.sh --pack` links it into `~/.pi/agent/extensions/`,
+  so its loaded path is the link.
 - **The rules are laid out for progressive disclosure.** `SKILL.md` holds what
   the model needs for most text. That is the scope and the exclusions, the
   precedence order, spelling, and the text types with their limits. It also
@@ -442,8 +446,8 @@ section (`plugins/grove/skills/grove/SKILL.md`) to these requirements.
   explicit request still comes first. Without the skill, the section
   binds as it stands. It restates no rule of the skill.
 - **The plugin hub lists the dependency.** `references/grove.md` lists
-  `linkuistics:technical-communication` with the other three `linkuistics`
-  citations, and it says that the section itself is what binds without it.
+  `technical-communication` by its bare name with the other craft skills that
+  Grove cites, and it says that the section itself is what binds without it.
 - **Grove's commit procedure allows the conversion commit.**
   `references/commit.md` gains one sentence. It says that a change another
   skill needs to land first, such as a document's conversion, is its own commit
@@ -460,7 +464,7 @@ govern the words inside them, and nothing in that plugin changes.
 | Reminder | `UserPromptSubmit` | `UserPromptSubmit`, once trusted | `before_agent_start`, as a hidden message that Pi saves | None |
 | Document gate | `PostToolUse` on `Write`, `Edit` and `NotebookEdit` | `PostToolUse` on `apply_patch`, with the paths read from the patch's headers | `tool_result` on `write` and `edit` | The model runs the checker |
 | Reply log | `Stop` and `SubagentStop`, from `last_assistant_message` | `Stop` and `SubagentStop`, from `last_assistant_message`, once trusted | `agent_end`, from the run's last assistant message | None |
-| Delivered by | The marketplace plugin, with auto-update | The hooks plugin, which the human adds and trusts once | `install.sh` links the extension | `install.sh` links the skill when Gemini is installed |
+| Delivered by | The hooks plugin `technical-communication-hooks` from Grove's marketplace, with auto-update | The hooks plugin, which the human adds and trusts once | Grove's `install.sh --pack` links the extension | Grove's `install.sh --pack` links the skill when Gemini is installed |
 
 - **Every entry fails open and quietly.** The core prints at most one complete
   JSON object, written once, and only when it adds context. For a reply it
@@ -528,9 +532,10 @@ govern the words inside them, and nothing in that plugin changes.
   boundary that trust exists to be. The user document offers one optional line
   that the human can paste. That line names the skill and says that it applies
   unless the off file exists.
-- **`plugins/install.sh` also links the Pi extension** into
-  `~/.pi/agent/extensions/`. It makes the link with the same ownership and
-  reconciliation rules as its skill links, and it runs no Codex command.
+- **Grove's `plugins/install.sh` also links the Pi extension** into
+  `~/.pi/agent/extensions/`, when `--pack` names the writing plugin. It makes
+  the link with the same ownership and reconciliation rules as its skill links,
+  and it runs no Codex command.
   Grove's startup writes no skill or hook links. Snapshots that Grove 22.8 and
   earlier provisioned carry the hook scripts as supporting files, and nothing
   reads them there.
@@ -593,13 +598,13 @@ results go into its running log, with no text from the standard.
 ## Verification
 
 No tests are built beyond the checker's own self-test, which runs in
-`scripts/check.sh` (the human's decision in `plan-k1`). Each leaf shows its
+`task check:tc-checker` (the human's decision in `plan-k1`). Each leaf shows its
 behaviour by running it. The checker leaves run it on real documents and
 replies. Each always-on leaf runs a real session and shows each layer and the
 switch working.
 
 `scripts/pi-extension-load.test.sh` is a Pi load check that uses no model
-quota, and `scripts/check.sh` runs it. It starts Pi in RPC mode and reads the
+quota, and `task check:tc-pi` runs it. It starts Pi in RPC mode and reads the
 start record that the extension writes. So it fails when the extension does not
 load, or when it registers no working handler. It also fails when the off file
 does not stop the record, or when Pi stops reporting a broken extension. It
