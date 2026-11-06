@@ -24,8 +24,9 @@ import { fileURLToPath } from "node:url";
 const TIMEOUT_MS = { instruction: 5000, prompt: 5000, start: 10000, reply: 10000, write: 15000 };
 const OUTPUT_LIMIT = 100_000; // bytes of the core's output to keep
 
-// The skill directory, through this file's own real path: install.sh links the
-// file into ~/.pi/agent/extensions/, so the loaded path is the link.
+// The skill directory, through this file's own real path: the documented
+// command links the file into ~/.pi/agent/extensions/, so the loaded path is
+// the link.
 function hookScript(): string {
   let own = "";
   try {

@@ -46,71 +46,70 @@ The log scores replies instead.
 | Claude Code | The skill and all four layers |
 | Codex | The skill. All four layers once you trust the hooks plugin |
 | Pi | The skill and all four layers, through an extension |
-| Gemini CLI | The skill only |
+| Gemini CLI | The skill only, when its user points Gemini CLI to the skill directory |
 
 Where no layer runs, the model checks a document itself. The skill tells it to
 run the checker before it sends a document.
 
 ## Install
 
-All the steps below are one-time steps.
-
-**Claude Code.** Install the `writing` plugin from Grove's marketplace. Turn on
-auto-update for the marketplace, so each new version reaches you.
-
-```text
-/plugin marketplace add Linkuistics/grove
-/plugin install writing@linkuistics
-```
-
-The `writing` plugin holds the skill. It declares the hooks plugin
-`technical-communication-hooks` as a dependency, so the installation adds the
-layers too. If Ravel gives you the skill, install the hooks plugin alone:
-
-```text
-/plugin install technical-communication-hooks@linkuistics
-```
-
-The hooks plugin holds no skill. Start a new session. The layers are on.
-
-**Codex.** The skill arrives through Ravel or through Grove's manual installer,
-as the [README](../README.md#install) of this repository says. The layers are in a
-separate hooks plugin, which you add and trust yourself. Nothing in this
-repository writes trust into your configuration.
+**The skill.** Install Grove with Homebrew. Grove's formula carries this
+pack, and Ravel delivers the skill to each session that it starts.
 
 ```sh
-# 1. Add the marketplace of this repository.
-codex plugin marketplace add Linkuistics/WritingSkills
-# Or, to use a checkout:
-codex plugin marketplace add /path/to/writing-checkout
+brew tap Linkuistics/taps
+brew install grove
+```
+
+`brew upgrade` keeps the skill current. The [README](../README.md#install) of
+this repository states the details. The layers are in hook adapters, which
+you register in each harness yourself, as follows.
+
+**Claude Code.** Run these commands once:
+
+```sh
+claude plugin marketplace add "$(brew --prefix)/opt/grove"
+claude plugin install technical-communication-hooks@writing-hooks
+```
+
+The hooks plugin holds no skill. Start a new session. The layers are on. The
+plugin runs from Grove's keg through the stable `opt` path, so an upgrade of
+Grove needs no new command.
+
+**Codex.** Nothing in this repository writes trust into your configuration.
+Run these commands after each installation or upgrade of Grove:
+
+```sh
+# 1. Add the marketplace of Grove's keg.
+codex plugin marketplace add "$(brew --prefix)/opt/grove"
 
 # 2. Install the plugin. This copies the skill directory into Codex's cache.
 codex plugin add technical-communication@writing-hooks
 ```
 
-Then start `codex`. Codex shows a "Hooks need review" prompt. Review the six
-entries and trust them. You can also run `/hooks` and trust each
+Then start `codex`. Codex shows a "Hooks need review" prompt. Choose "Trust
+all and continue". You can also run `/hooks` and trust each
 `technical-communication` entry. Do not choose "Continue without trusting".
 
 Before you trust the plugin, Codex has the skill and no layer runs.
 `codex exec` skips an untrusted entry and says nothing.
 
-To refresh the plugin after an update, run step 2 again. Trust stays, because
-the entries never change shape.
+Codex stores the path of the versioned keg, and its trust covers the bytes of
+the plugin. After an upgrade of Grove, run both commands and the review again.
 
-**Pi.** Run Grove's installer from the main checkout of Grove, and name the
-plugin directory of a checkout of this repository.
+**Pi.** Run this command once:
 
 ```sh
-./plugins/install.sh --pack /path/to/writing-checkout/plugins/writing
+ln -s "$(brew --prefix)/share/ravel/skills/writing/craft/technical-communication/harnesses/pi/technical-communication.ts" ~/.pi/agent/extensions/
 ```
 
-It links the skill into `~/.pi/agent/skills`. It also links the extension into
-`~/.pi/agent/extensions`. Restart Pi once after the link first exists. Pi asks
-for no trust. To start Pi without any extension for one run, use `pi -ne`.
+The link resolves through Homebrew's shared directory each time Pi loads the
+extension. Restart Pi once after the link first exists. Pi asks for no trust.
+To start Pi without any extension for one run, use `pi -ne`.
 
-**Gemini CLI.** The same `./plugins/install.sh --pack` links the skill when
-Gemini CLI is installed. No layer runs there. Gemini CLI gets the skill only.
+**Gemini CLI.** No layer runs there. Ravel starts no Gemini CLI session, so
+Gemini CLI finds no skill by itself. Its user can point it to the skill
+directory that `ravel skills resolve` lists.
 
 ## Turn it off and on
 

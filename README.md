@@ -54,8 +54,7 @@ runs `scripts/tc-hook` of that directory.
 | Claude Code | `technical-communication-hooks` | `.claude-plugin/plugin.json` | `hooks/hooks.json`, which Claude Code reads by default |
 | Codex | `technical-communication` | `.codex-plugin/plugin.json` | `harnesses/codex/hooks.json`, which the manifest names |
 
-Neither plugin holds a skill. Ravel or the writing plugin delivers the skill
-itself.
+Neither plugin holds a skill. Ravel delivers the skill itself.
 
 The Claude Code manifest lists `"skills": []`. Claude Code loads a plugin root
 that holds `SKILL.md`, with no `skills/` directory and no `skills` key, as one
@@ -68,16 +67,16 @@ The Codex manifest names its hooks file. Codex reads the default
 therefore keeps Codex away from the Claude Code hooks file in the same root.
 
 The writing plugin lists `technical-communication-hooks` in its
-`dependencies` and declares no hook. An installation of the writing plugin
-therefore also installs the hooks plugin. A native user of the writing plugin
-keeps the always-on layers, and each hook runs once, also when the user
-installs both plugins. A bare dependency name resolves in the marketplace that
-lists the writing plugin. That marketplace must list the hooks plugin too.
+`dependencies` and declares no hook. No route installs the writing plugin, so
+its manifest is layout metadata. `task check:hooks` still checks that each
+hook runs once in each combination of the two plugins.
 
-Codex adds a plugin only from a marketplace. The Codex marketplace file
-`.agents/plugins/marketplace.json` at the repository root has the name
-`writing-hooks`. It lists the Codex plugin with a `local` source, at the path
-of the skill directory.
+Each harness adds a hooks plugin only from a marketplace. Grove's Homebrew keg
+holds the marketplace files at its root, with the name `writing-hooks` for
+both harnesses. Codex resolves a `local` source only inside its marketplace
+root, so the file must lie above the skill directory in the keg. This
+repository therefore holds no marketplace file. [Install](#install) gives the
+commands that register the files.
 
 ## Layout
 
@@ -95,9 +94,9 @@ by default and adds `craft/`. `plugins/writing/PROVENANCE.md` holds the sources
 of the craft skills.
 
 The repository root holds the files that the pack does not deliver. They are
-this README, the licence, the Taskfile and the documents in `docs/`. The Codex
-marketplace file in `.agents/plugins/` and the scripts in `scripts/` are also
-there. The scripts are the Pi load check and the hook count.
+this README, the licence, the Taskfile and the documents in `docs/`. The
+scripts in `scripts/` are also there. They are the Pi load check and the hook
+count.
 
 Grove's external pack contract, `docs/specs/external-pack-contract.md` in the
 Grove repository, states the layout, the references between skills and the
@@ -129,72 +128,66 @@ plugin manifest of this pack.
 
 ## Install
 
-Each route also needs Grove's core, which supplies the `grove` skill.
+### Skills
 
-### Ravel
-
-Add this record to the `skills.sources` list of the Ravel settings, beside the
-record of Grove's core. Replace `<checkout>` with the absolute path of a
-checkout of this repository:
-
-```json
-{ "id": "writing", "type": "local", "path": "<checkout>/plugins/writing", "roots": ["skills", "craft"] }
-```
-
-Ravel reads the checkout as a local directory. It does not fetch or update the
-checkout. A tool outside Ravel holds the checkout at a published commit.
-
-### Claude Code plugin
-
-Install the plugin from Grove's marketplace:
-
-```text
-/plugin marketplace add Linkuistics/grove
-/plugin install writing@linkuistics
-```
-
-The manifest declares the dependencies `grove` and
-`technical-communication-hooks`. The installation therefore also adds Grove's
-core and the hooks plugin. The skills then have the namespace `writing:`, for
-example `writing:grove-draft` and `writing:technical-communication`.
-
-To install only the always-on hooks, for example beside Ravel, name the hooks
-plugin alone:
-
-```text
-/plugin install technical-communication-hooks@linkuistics
-```
-
-Grove's marketplace pins commit `4cafb0fd8e72dacdeea9d960cbdaf9f4850aec8f` of
-this pack for both plugins. Grove commit `4cfac6295881` made that change when it
-removed Grove's copies of the craft skills. The marketplace lists the hooks
-plugin, so the dependency of the writing plugin resolves there.
-
-### Codex hooks plugin
-
-Add the marketplace of this repository and the plugin. Replace `<checkout>`
-with the absolute path of a checkout of this repository:
+Install the `grove` formula with Homebrew:
 
 ```sh
-codex plugin marketplace add <checkout>
+brew tap Linkuistics/taps
+brew install grove
+```
+
+Grove's formula carries Grove's core and the five domain packs, and this pack
+is one of them. Each pack is at the commit that Grove's pack check accepted, so
+a change to this pack reaches users through a Grove release. The keg holds
+the source directory `plugins/writing` at `share/ravel/skills/writing`.
+Homebrew links it into `$(brew --prefix)/share/ravel/skills/`.
+
+Ravel delivers the skills. Ravel 2.0.0 reads that directory when its settings
+name no sources, and it gives each session that it starts the skills of both
+roots. `brew upgrade` keeps the pack current. No harness finds the skills in
+the keg alone, and this pack has no native marketplace entry or installer
+step.
+
+### Hook adapters
+
+Ravel installs no hook. Register the hook adapters of Grove's keg once in each
+harness. These are the documented commands, which the formula's caveats also
+print.
+
+Claude Code, once:
+
+```sh
+claude plugin marketplace add "$(brew --prefix)/opt/grove"
+claude plugin install technical-communication-hooks@writing-hooks
+```
+
+The installation enables the plugin. No option installs a plugin disabled, so
+a user who wants the plugin off runs `claude plugin disable` next.
+
+Codex, after each installation or upgrade of Grove:
+
+```sh
+codex plugin marketplace add "$(brew --prefix)/opt/grove"
 codex plugin add technical-communication@writing-hooks
 ```
 
-The plugin adds only the hooks. The skill reaches Codex through Ravel or
-through Grove's manual installer.
+Then start `codex` once and choose "Trust all and continue" at its hook
+review. Codex stores the path of the versioned keg and copies the plugin into
+its cache. An upgrade therefore needs both commands and the review again.
 
-### Manual installation
-
-Grove's manual installer links the skills of both roots of a pack:
+Pi, once:
 
 ```sh
-<grove checkout>/plugins/install.sh --pack <writing checkout>/plugins/writing
+ln -s "$(brew --prefix)/share/ravel/skills/writing/craft/technical-communication/harnesses/pi/technical-communication.ts" ~/.pi/agent/extensions/
 ```
 
-The installer also links the Pi extension of `technical-communication` into
-`~/.pi/agent/extensions/`. It refuses a skill name that two scanned plugins
-ship. A Grove checkout before commit `4cfac6295881` ships its own copies of the
-craft skills, so use a Grove checkout of that commit or a later one.
+### Development
+
+A checkout of this repository can serve as a trial source. Name
+`<checkout>/plugins/writing` with the roots `skills` and `craft` in the
+`skills` object of the Ravel settings. Ravel captures the uncommitted changes
+of the checkout. It does not fetch or update the checkout.
 
 ## Checks
 
@@ -284,9 +277,6 @@ The two hooks plugins come from Grove commit
   `plugins/linkuistics/hooks/hooks.json`. Its script path loses the part
   `skills/technical-communication/`, because the plugin root is now the skill
   directory.
-- `.agents/plugins/marketplace.json` is Grove's file of the same path. Its name
-  is `writing-hooks` in place of `linkuistics-hooks`, its display name is
-  "Writing hooks", and its path names the skill directory in this pack.
 - `craft/technical-communication/.claude-plugin/plugin.json` and
   `scripts/hook-count.py` are new.
 
@@ -332,6 +322,19 @@ checks of Grove's `scripts/check.sh`:
   plugin in place of the `linkuistics` plugin.
 - `docs/adr/technical-communication-carries-no-standard-text.md` names the
   routes from this repository and the earlier publication from Grove.
+
+The commit for Homebrew installation removed the root Codex marketplace file
+of this repository. That file came from Grove with the hooks plugins, with
+the name `writing-hooks`. Grove's keg now holds the Codex marketplace file of
+that name. The commit also made these changes:
+
+- This README, the user guide, the specification and its harness map state
+  Homebrew installation, Ravel delivery and the registration commands of the
+  hook adapters.
+- `docs/adr/technical-communication-carries-no-standard-text.md` names the
+  routes from Grove's keg.
+- The descriptions of the two hooks plugin manifests and a comment of the Pi
+  extension name Ravel and the keg in place of Grove's installer.
 
 The dated records keep their bytes. They are the publication review, the
 harness survey and the evaluation records.

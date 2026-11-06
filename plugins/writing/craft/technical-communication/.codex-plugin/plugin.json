@@ -1,6 +1,6 @@
 {
   "name": "technical-communication",
-  "description": "Always-on hooks for the technical-communication skill: the instruction, the reminder, the document gate and the reply log. The skill itself reaches Codex through Ravel, through Grove's plugins/install.sh --pack, or through another installation the user chooses.",
+  "description": "Always-on hooks for the technical-communication skill: the instruction, the reminder, the document gate and the reply log. This plugin holds no skill. Ravel delivers the skill from Grove's Homebrew keg.",
   "author": {
     "name": "Antony Blakey",
     "email": "antony.blakey@gmail.com"

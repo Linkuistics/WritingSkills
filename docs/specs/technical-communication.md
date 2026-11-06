@@ -42,12 +42,11 @@ converts the whole document first, as its own change.
 
 ### Layers and layout
 
-Everything except the Codex marketplace file lives in one skill directory, in
-the `craft/` root of the writing plugin. That directory is also the root of the
-two hooks plugins. The Codex marketplace file is in the repository root.
+Everything lives in one skill directory, in the `craft/` root of the writing
+plugin. That directory is also the root of the two hooks plugins. The
+marketplace files that list the hooks plugins are in Grove's Homebrew keg.
 
 ```text
-.agents/plugins/marketplace.json     Codex marketplace that lists the hooks plugin
 plugins/writing/
 └── craft/technical-communication/
     ├── SKILL.md                     the skill
@@ -74,22 +73,25 @@ plugins/writing/
   frontmatter hook lasts only while that skill is active. The root of the hooks
   plugin is the skill directory. Its manifest lists `"skills": []`, so the
   plugin adds no second copy of the skill. The writing plugin declares the hooks
-  plugin as a dependency and declares no hook. Each hook therefore runs once,
-  whichever of the two plugins the human installs.
+  plugin as a dependency and declares no hook. No route installs the writing
+  plugin, and `task check:hooks` checks that each hook still runs once in each
+  combination of the two plugins.
 - **The Codex plugin's root is the skill directory itself.** Its entries then
   reach the scripts through `${PLUGIN_ROOT}/scripts/`, and they work from
   Codex's cache, which holds a copy of the whole directory. The directory has no
   `skills/` subdirectory, so the plugin adds no second copy of the skill.
-- **Codex adds a plugin only from a marketplace.**
-  `.agents/plugins/marketplace.json` at the repository root lists the one plugin,
-  `technical-communication`, with the skill directory as its source. Claude Code's
-  marketplace is Grove's, which lists the writing plugin and the hooks plugin. The cache copy is a snapshot: after the scripts
-  change, the human installs the plugin again to refresh it. Until then the
-  cached scripts run, and a cached script that lacks a newer harness name
-  does nothing.
+- **Each harness adds a plugin only from a marketplace.** Grove's keg holds
+  both marketplace files at its root, with the name `writing-hooks`. Each file
+  lists one plugin, with the skill directory in the keg's `writing` source as
+  its source. Codex resolves a `local` source only inside its marketplace root,
+  so this repository holds no marketplace file. Codex stores the path of the
+  versioned keg, and its cache copy is a snapshot. After an upgrade of Grove,
+  the human adds the marketplace and the plugin again and repeats the hook
+  review. Until then the cached scripts run, and a cached script that lacks a
+  newer harness name does nothing.
 - **The Pi extension finds the skill directory through its own real path.**
-  Grove's `plugins/install.sh --pack` links it into `~/.pi/agent/extensions/`,
-  so its loaded path is the link.
+  The documented command links it into `~/.pi/agent/extensions/` from
+  Homebrew's shared skill directory, so its loaded path is the link.
 - **The rules are laid out for progressive disclosure.** `SKILL.md` holds what
   the model needs for most text. That is the scope and the exclusions, the
   precedence order, spelling, and the text types with their limits. It also
@@ -464,7 +466,7 @@ govern the words inside them, and nothing in that plugin changes.
 | Reminder | `UserPromptSubmit` | `UserPromptSubmit`, once trusted | `before_agent_start`, as a hidden message that Pi saves | None |
 | Document gate | `PostToolUse` on `Write`, `Edit` and `NotebookEdit` | `PostToolUse` on `apply_patch`, with the paths read from the patch's headers | `tool_result` on `write` and `edit` | The model runs the checker |
 | Reply log | `Stop` and `SubagentStop`, from `last_assistant_message` | `Stop` and `SubagentStop`, from `last_assistant_message`, once trusted | `agent_end`, from the run's last assistant message | None |
-| Delivered by | The hooks plugin `technical-communication-hooks` from Grove's marketplace, with auto-update | The hooks plugin, which the human adds and trusts once | Grove's `install.sh --pack` links the extension | Grove's `install.sh --pack` links the skill when Gemini is installed |
+| Delivered by | The hooks plugin `technical-communication-hooks` from Grove's keg, which the human registers once | The hooks plugin from Grove's keg, which the human adds and trusts after each upgrade of Grove | A link that the human makes once through Homebrew's shared skill directory | Nothing. The human can point Gemini CLI to the skill directory |
 
 - **Every entry fails open and quietly.** The core prints at most one complete
   JSON object, written once, and only when it adds context. For a reply it
@@ -532,11 +534,10 @@ govern the words inside them, and nothing in that plugin changes.
   boundary that trust exists to be. The user document offers one optional line
   that the human can paste. That line names the skill and says that it applies
   unless the off file exists.
-- **Grove's `plugins/install.sh` also links the Pi extension** into
-  `~/.pi/agent/extensions/`, when `--pack` names the writing plugin. It makes
-  the link with the same ownership and reconciliation rules as its skill links,
-  and it runs no Codex command.
-  Grove's startup writes no skill or hook links. Snapshots that Grove 22.8 and
+- **No installer writes a hook registration.** Homebrew cannot write a
+  harness's configuration. The human runs the documented commands, which the
+  `grove` formula's caveats print: the Claude Code and Codex registrations and
+  the Pi link. Grove's startup writes no skill or hook links. Snapshots that Grove 22.8 and
   earlier provisioned carry the hook scripts as supporting files, and nothing
   reads them there.
 
