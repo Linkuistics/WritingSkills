@@ -17,6 +17,12 @@ import os
 import re
 import sys
 
+# The hooks run in place from an installed source, such as a Homebrew keg, and
+# a file written there changes the source's digest. The import of ste-lint.py
+# below would otherwise write its bytecode into scripts/__pycache__. tc-hook
+# passes -B too; this setting covers a run without the guard.
+sys.dont_write_bytecode = True
+
 SCRIPTS = os.path.dirname(os.path.realpath(__file__))
 SKILL_DIR = os.path.dirname(SCRIPTS)
 ALWAYS_ON = os.path.join(SKILL_DIR, "always-on")

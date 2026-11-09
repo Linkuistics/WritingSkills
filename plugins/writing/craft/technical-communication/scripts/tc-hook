@@ -18,8 +18,12 @@ esac
 for python in python3 /usr/bin/python3 /opt/homebrew/bin/python3 /usr/local/bin/python3; do
   if command -v "$python" >/dev/null 2>&1; then
     # -I: ignore PYTHONPATH and the user's site directory, so a stray module
-    # cannot shadow the standard library inside a hook.
-    "$python" -I "$dir/tc_hook.py" "$@" 2>/dev/null
+    # cannot shadow the standard library inside a hook. -I also ignores
+    # PYTHONDONTWRITEBYTECODE, so -B must stop the bytecode write itself.
+    # -B: write no bytecode. The hooks run in place from an installed source,
+    # such as a Homebrew keg, and a file written there changes the source's
+    # digest.
+    "$python" -I -B "$dir/tc_hook.py" "$@" 2>/dev/null
     exit 0
   fi
 done

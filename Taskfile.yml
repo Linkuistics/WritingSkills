@@ -81,6 +81,11 @@ tasks:
       # reads that plugin from the Grove checkout.
       - python3 -I '{{.ROOT_DIR}}/scripts/hook-count.py' '{{.ROOT_DIR}}' --plugin 'grove={{.GROVE_DIR}}/plugins/grove' --controls
 
+  check:hook-writes:
+    desc: Run every declared hook against a read-only and a writable copy of the source, require the writable copy unchanged, then run the controls that must fail
+    cmds:
+      - python3 -I '{{.ROOT_DIR}}/scripts/hook-writes.py' '{{.ROOT_DIR}}' --controls
+
   check:tc-checker:
     desc: Run the self-test of the technical-communication checker
     cmds:
@@ -103,6 +108,7 @@ tasks:
     cmds:
       - task: check:plugin
       - task: check:hooks
+      - task: check:hook-writes
       - task: check:tc-checker
       - task: check:tc-hook-lint
       - task: check:tc-pi

@@ -475,6 +475,14 @@ govern the words inside them, and nothing in that plugin changes.
   missing, and on any error. On Pi, every handler catches every error, and the
   extension's factory only registers handlers. It imports only Node's built-in
   modules, because a broken extension stops Pi from starting in every mode.
+- **No entry writes inside the source.** The hooks run in place from an
+  installed source, such as Grove's Homebrew keg, and Ravel digests every file
+  of it. A file written there changes the source's `resourceDigest`. The core
+  writes only in the state directory. `tc-hook` runs Python with `-I -B`, and
+  the core sets `sys.dont_write_bytecode` before it loads the checker, so the
+  import writes no bytecode into `scripts/__pycache__`. `scripts/hook-writes.py`
+  runs each declared entry against a read-only and a writable copy of the
+  source, and the writable copy's tree must not change.
 - **Entries never change shape.** Codex trusts a hash of each entry's command,
   matcher and timeout, so a changed entry loses its trust, and `codex exec` then
   skips it without a word. Behaviour changes go into the scripts.
