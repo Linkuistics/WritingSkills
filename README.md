@@ -133,21 +133,33 @@ plugin manifest of this pack.
 Install the `grove` formula with Homebrew:
 
 ```sh
-brew tap Linkuistics/taps
+brew tap linkuistics/taps
+brew trust linkuistics/taps
 brew install grove
 ```
 
-Grove's formula carries Grove's core and the five domain packs, and this pack
-is one of them. Each pack is at the commit that Grove's pack check accepted, so
-a change to this pack reaches users through a Grove release. The keg holds
-the source directory `plugins/writing` at `share/ravel/skills/writing`.
-Homebrew links it into `$(brew --prefix)/share/ravel/skills/`.
+Homebrew 6.0.0 and later do not trust a tap that `brew tap` adds. Grove's
+formula loads its dependency `ravel` from the same tap, so trust the tap
+before the first install. [Install Grove](https://github.com/Linkuistics/grove#install-grove)
+in Grove's README gives Homebrew's rules.
 
-Ravel delivers the skills. Ravel 2.0.0 reads that directory when its settings
+Grove's formula, from the release after 22.8, carries Grove's core and the five
+domain packs, and this pack is one of them. Each pack is at the commit that
+Grove's pack check accepted, so a change to this pack reaches users through a
+Grove release. The keg holds the source directory `plugins/writing` at
+`share/ravel/skills/writing`. Homebrew links it into
+`$(brew --prefix)/share/ravel/skills/`.
+
+Ravel 2 delivers the skills. Ravel 2.0.0 reads that directory when its settings
 name no sources, and it gives each session that it starts the skills of both
 roots. `brew upgrade` keeps the pack current. No harness finds the skills in
 the keg alone, and this pack has no native marketplace entry or installer
 step.
+
+Ravel 1.x delivers no skill. While the unversioned `ravel` formula is
+Ravel 1.x, use the keg-only `ravel@2` for each Grove invocation.
+[Skills](https://github.com/Linkuistics/grove#skills) in Grove's README gives
+the commands and the upgrade order.
 
 ### Hook adapters
 

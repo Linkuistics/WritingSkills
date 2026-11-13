@@ -3,8 +3,9 @@
 
 The pack has two Claude Code plugins. The writing plugin holds the skills and
 declares no hook. The plugin technical-communication-hooks holds the hooks and
-no skill. The writing plugin names the hooks plugin in its `dependencies`, so a
-native user of the writing plugin also gets the hooks.
+no skill. The writing plugin names the hooks plugin in its `dependencies`. No
+route installs the writing plugin now, and the count keeps the dependency
+from adding a second declaration of any hook.
 
 This check reads the manifests and hooks files as Claude Code reads them. For
 each plugin, it takes the default `hooks/hooks.json` and each entry of the

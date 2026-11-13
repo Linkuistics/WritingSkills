@@ -57,9 +57,15 @@ run the checker before it sends a document.
 pack, and Ravel delivers the skill to each session that it starts.
 
 ```sh
-brew tap Linkuistics/taps
+brew tap linkuistics/taps
+brew trust linkuistics/taps
 brew install grove
 ```
+
+Homebrew 6.0.0 and later do not trust a tap that `brew tap` adds. Grove's
+formula loads its dependency `ravel` from the same tap, so trust the tap
+before the first install. Ravel 2 delivers the skill, and Ravel 1.x delivers
+none.
 
 `brew upgrade` keeps the skill current. The [README](../README.md#install) of
 this repository states the details. The layers are in hook adapters, which
