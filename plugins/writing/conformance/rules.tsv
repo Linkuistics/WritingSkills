@@ -15,6 +15,12 @@ copy-edit-operative-tests	grove-copy-edit/SKILL.md	B	static({copy-edit})	A figur
 draft-requires-a-structure-brief	grove-draft/SKILL.md	B+S	static({draft})	If this document has no structure brief, stop and say so
 structure-brief-is-three-citable-things	grove-draft/SKILL.md	B	static({draft})	The existence of a node file is not the test
 draft-owns-structure-and-technical-truth	grove-draft/SKILL.md	B	static({draft})	every claim about the subject is checked against the subject
+structure-brief-three-items-deepened	grove-draft/SKILL.md	B	static({draft})	the model-first plan with page purposes and entry routes
+local-context-at-every-declared-entry	grove-draft/SKILL.md	B	static({draft})	Each declared entry carries the local context and example it needs
+examples-labelled-canonical-complete	grove-draft/SKILL.md	B	static({draft})	Label each example complete or fragment and say what a fragment omits
+reference-entries-shaped-by-subject	grove-draft/SKILL.md	B	static({draft})	carry identifiers that survive heading edits
+draft-reads-the-contract-parts	grove-draft/SKILL.md	B+S	static({draft})	The section plan outranks a layout convention
+draft-binds-the-teaching-rules	grove-draft/SKILL.md	B+S	static({draft})	The rules in `references/execute.md` under *Teaching the reader* bind this drafting
 editorial-stage-is-a-producer	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	a **producer, not a reviewer**
 whole-document-one-charter	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	changes only what its own charter owns
 charter-overflow-is-passed-not-absorbed	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	recorded and passed on, **never absorbed**
@@ -26,6 +32,7 @@ send-back-is-a-contiguous-run	editorial-family/SKILL.md	B+S	static({draft,copy-e
 second-re-run-is-an-escalation	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	A second re-run of one stage against one document is an escalation, not a third leaf
 stage-review-allowance-is-the-producers	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	The next stage is not that review
 stage-leaves-it-green	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	passing whatever gate the repository runs over it
+editorial-stage-reads-the-document-contract	editorial-family/SKILL.md	B+S	static({draft,copy-edit,art,proof})	A document declares its contract as `DOCUMENT-CONTRACT-FORMAT.md` directs
 proof-reads-for-whole-document-coherence	grove-proof/SKILL.md	B	static({proof})	coherence across the whole document
 proof-clears-the-hand-forward-list	grove-proof/SKILL.md	B	static({proof})	An entry left in the list when this stage retires is a defect nobody owns
 proof-cuts-nothing-unless-it-sends-work-back	grove-proof/SKILL.md	B	static({proof})	the node closes when a `proof` retires having sent nothing back

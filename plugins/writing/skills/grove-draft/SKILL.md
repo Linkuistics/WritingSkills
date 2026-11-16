@@ -41,6 +41,18 @@ path**, and that artifact itself states
 - **the ordered section plan** — the sequence, and what each section is for,
 - **what deserves emphasis**, and what the document does not cover.
 
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+**The three citable items carry expertise per domain and representation, the
+model-first plan with page purposes and entry routes, and the intended
+domain.**
+
+The reader item names the reader's expertise in each domain and
+representation. It also names what needs no teaching. The plan puts the
+model before the notation and gives each page its purpose. It also names the
+learning route and the direct entries. The emphasis item also names the
+intended domain. The other fields of the brief are optional, and an absent
+field takes its default.
+
 All three, in the artifact, quotable. **The existence of a node file is not the
 test.** `leaf-decompose` gives every node one automatically and bootstrap reads
 it, so an existence check answers yes for every draft — including exactly the
@@ -49,6 +61,46 @@ brief and it does not state all three, you do not have a structure brief: stop,
 and name which of the three is missing. Do not infer one from a filename or from
 a neighbouring leaf's slug; those are one repository's convention and this kind
 installs everywhere.
+
+## What `draft` reads from the contract
+
+The document's contract follows `DOCUMENT-CONTRACT-FORMAT.md`. That file
+resolves each part and the default of each absent part. `draft` reads these
+parts:
+
+- the whole structure brief,
+- the format and media part,
+- the keyword, example-label, normative-aid and layout conventions of the
+  prose contract.
+
+`draft` owns the content of the structure, the teaching and the examples. It
+owns the subject of each heading, opening and summary. It owns the example
+labels, the normative text, the sections, the lists and the tables. It owns
+the wording of each normative sentence.
+
+**The section plan outranks a layout convention.** The human decides the
+sections, so the headings that the plan states stand. They stand even where
+a layout convention would not add them. A layout convention governs what
+`draft` adds within the plan: further heading levels, lists and tables.
+
+**The rules in `references/execute.md` under *Teaching the reader* bind this
+drafting.** Read them before you write.
+
+## Entries, examples and reference entries
+
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+- **Each declared entry carries the local context and example it needs, and
+  teaching support at a normative entry stays distinguishable from the
+  normative text.** A reader who arrives at a rule, an anchor, an example or a
+  figure can use it without reading the pages before it.
+<!-- tc: depart long-sentence,semicolon because the conformance inventory pins this rule statement verbatim -->
+- **Label each example complete or fragment and say what a fragment omits;
+  keep canonical examples complete; place a local excerpt where each construct
+  is first met.**
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+- **Reference entries share fields shaped by the thing described and carry
+  identifiers that survive heading edits.** Entries of one kind have the same
+  fields.
 
 ## Two folded charters, owned explicitly
 

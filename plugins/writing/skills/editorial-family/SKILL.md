@@ -4,12 +4,21 @@ description: The procedure that the draft, copy-edit, art and proof session kind
 harnesses: [any]
 ---
 
+**Load the `grove` skill now** if this session has not loaded it. This is a
+bare skill name. If your harness requires a plugin namespace, use the
+namespace under which the skill is actually installed. Do not assume one. If
+you cannot find or read the skill, follow the launch prompt's rule for a
+missing kind skill.
+
 - **draft**, **copy-edit**, **art** and **proof** (all AFK) — the four stages of
   a document's publishing pipeline. Each is a **producer, not a reviewer**: it
   reads the whole document as its predecessor left it and *fixes*, where a
   `review-*` kind only reports. The contract the document declares — its
   specification, its prose rules, its validator — supplies every class a charter
   names; the stage supplies the discipline of reading for it.
+
+A document declares its contract as `DOCUMENT-CONTRACT-FORMAT.md` directs.
+Each stage's skill names the parts of the contract that the stage reads.
 
 ## Whole document, one charter
 
@@ -57,7 +66,7 @@ there is no leaf state that means *reopened*. A defect an **earlier** stage's
 charter owns, that you may not fix, becomes a **re-run leaf of that stage** — and
 one leaf is never enough, because the material it changes is read again by every
 stage after it. Cut, with `leaf-add` and in pipeline order, a **contiguous run**
-that begins at the owning stage and ends at `proof`:
+that begins at the owning stage and ends at `proof`: <!-- tc: depart synonym-rotation because "launch prompt" above is a Grove term, not a verb, and this sentence is pinned -->
 
 - the run always contains the stage that would otherwise have run next after
   you, and always ends at `proof`;
