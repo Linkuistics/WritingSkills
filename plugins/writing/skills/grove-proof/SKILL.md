@@ -25,12 +25,51 @@ introduced or missed, and the last check that the document is whole.
 **Whole-document scope, and every class is in charter** — the one stage with no
 charter boundary.
 
+## What it reads
+
+Read the whole contract: the reader outcome, the entry routes, the coverage
+inventory, the status statements and the viewing environments. `proof` owns
+no content and no wording. It corrects errors in every class, and it does not
+load another stage's skill to do so.
+
+## Walk every entry the contract declares
+
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+**Walk each declared entry route from its entry, including the direct rule,
+reference, example and figure entries, and check that model context and
+examples are present where new notation appears.**
+
+**Check coverage against the contract's inventory, when there is one.**
+
+## Read it where its readers read it
+
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+<!-- tc: depart synonym-rotation because the conformance inventory pins this rule statement verbatim -->
+**Verify the document where its readers read it: figures load, links and
+anchors resolve, aids are set apart from the normative text beside them, and
+each check is reported as the property it establishes.** When you check
+figures, check them against `FIGURE-FORMAT.md`.
+
 ## What only this stage can see
 
 Every earlier stage reads for its own class; this one reads for **coherence
 across the whole document** — two places giving two values for one fact, a
 closing summary contradicting a table hundreds of lines above it, one term
-counted one way on one page and another way elsewhere.
+counted one way on one page and another way elsewhere. **Status statements,
+terms and figure vocabulary agree across the set.**
+
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+**Read the headings, openings, table summaries and captions in document
+order: together they tell the document's story, each names its subject
+positively, and no relationship is left compressed where the reader first
+meets it. Keep a human reader's test as separate evidence.**
+
+## A clean proof is not reader understanding
+
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+**A clean proof establishes coherence and delivery, not reader understanding,
+and names the reader checkpoint that would test it.** When the contract
+declares no reader checkpoint, say that none is scheduled.
 
 ## You are last, so you hand nothing forward
 

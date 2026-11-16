@@ -40,7 +40,12 @@ second-re-run-is-an-escalation	editorial-family/SKILL.md	B	static({draft,copy-ed
 stage-review-allowance-is-the-producers	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	The next stage is not that review
 stage-leaves-it-green	editorial-family/SKILL.md	B	static({draft,copy-edit,art,proof})	passing whatever gate the repository runs over it
 editorial-stage-reads-the-document-contract	editorial-family/SKILL.md	B+S	static({draft,copy-edit,art,proof})	A document declares its contract as `DOCUMENT-CONTRACT-FORMAT.md` directs
-proof-reads-for-whole-document-coherence	grove-proof/SKILL.md	B	static({proof})	coherence across the whole document
+proof-reads-for-whole-document-coherence	grove-proof/SKILL.md	B	static({proof})	counted one way on one page and another way elsewhere. Status statements, terms and figure vocabulary agree across the set
+walk-every-declared-entry	grove-proof/SKILL.md	B	static({proof})	including the direct rule, reference, example and figure entries
+coverage-against-the-inventory	grove-proof/SKILL.md	B	static({proof})	Check coverage against the contract's inventory, when there is one
+read-in-the-declared-environment	grove-proof/SKILL.md	B	static({proof})	aids are set apart from the normative text beside them
+proof-claims-no-understanding	grove-proof/SKILL.md	B	static({proof})	names the reader checkpoint that would test it
+proof-reads-headings-and-openings-in-order	grove-proof/SKILL.md	B	static({proof})	no relationship is left compressed where the reader first meets it
 proof-clears-the-hand-forward-list	grove-proof/SKILL.md	B	static({proof})	An entry left in the list when this stage retires is a defect nobody owns
 proof-cuts-nothing-unless-it-sends-work-back	grove-proof/SKILL.md	B	static({proof})	the node closes when a `proof` retires having sent nothing back
 proof-is-the-stated-fallback	grove-proof/SKILL.md	B	static({proof})	a proof session that finds nothing has still done its job
