@@ -12,6 +12,11 @@ figure-carries-the-relation-and-states-its-role	grove-art/SKILL.md	B	static({art
 declined-figure-names-one-of-three-reasons	grove-art/SKILL.md	B	static({art})	a contract's medium is reopened by that record and by nothing else
 copy-edit-does-not-restructure	grove-copy-edit/SKILL.md	B	static({copy-edit})	a structural finding is sent back as a `draft` re-run leaf, never fixed here
 copy-edit-operative-tests	grove-copy-edit/SKILL.md	B	static({copy-edit})	A figure of speech replaced by the mechanism it stood for
+copy-edit-binds-the-teaching-rules	grove-copy-edit/SKILL.md	B+S	static({copy-edit})	The rules in `references/execute.md` under *Teaching the reader* bind this sentence work
+copy-edit-reads-the-prose-contract	grove-copy-edit/SKILL.md	B+S	static({copy-edit})	Read the set's prose contract as the contract format resolves it (the house style when the set declares none), the term risks and the declared expertise.
+tests-reach-openings-and-labels	grove-copy-edit/SKILL.md	B+S	static({copy-edit})	The tests cover headings, first sentences, summaries including table summaries, and example labels, not only body text.
+missing-teaching-goes-to-draft	grove-copy-edit/SKILL.md	B+S	static({copy-edit})	An untaught relationship or missing model is sent back as a `draft` correction run, never repaired in sentences.
+normative-wording-preserved	grove-copy-edit/SKILL.md	B+S	static({copy-edit})	Reword teaching text only; a defect in a normative sentence's wording or force goes back as a `draft` correction run rather than being repaired here.
 draft-requires-a-structure-brief	grove-draft/SKILL.md	B+S	static({draft})	If this document has no structure brief, stop and say so
 structure-brief-is-three-citable-things	grove-draft/SKILL.md	B	static({draft})	The existence of a node file is not the test
 draft-owns-structure-and-technical-truth	grove-draft/SKILL.md	B	static({draft})	every claim about the subject is checked against the subject
