@@ -23,6 +23,23 @@ else.
 **art** (AFK) — the document's figures: what a table, a list figure or a diagram
 can carry, and nothing else.
 
+## What it reads
+
+Read the contract's figure needs and the expertise it declares for each
+representation. Read the admitted media and renderers, the viewing
+environments and the prose contract's terms.
+
+## Meet the figure contract, and own the figure's text
+
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+**Every figure drawn or kept meets `FIGURE-FORMAT.md`, and `art` owns source
+and rendering agreement.**
+
+<!-- tc: depart long-sentence because the conformance inventory pins this rule statement verbatim -->
+**Figure titles, labels, keys, captions, role statements and text
+alternatives are `art`'s, written in the prose contract's terms and read with
+the adjacent prose.**
+
 ## Work in the medium the document's contract admits, and no other
 
 Where the contract admits only the page's own bytes, a figure is a table, a list
@@ -54,9 +71,9 @@ and get the owner's reaction before choosing a document-wide migration.
 Keep **one authoritative source per figure**: either generate the final drawing
 from the layout source, or make the final drawing source authoritative and
 retire the superseded source. Do not maintain two independent editable copies.
-Record renderer/library/font versions and the regeneration command; inspect
-the exported figures in their actual reading environment. Keep the existing
-figures until the trial supports changing the document's rendering contract.
+The figure contract states what a rendered figure records and how it is
+checked. Keep the existing figures until the trial supports changing the
+document's rendering contract.
 
 ## Two rules, and they are the whole charter
 
@@ -72,7 +89,9 @@ An editorial judgement, a rule in the contract that forbids the fix, and *the
 medium could not carry it* are three different findings, and the third is the
 only one that is evidence about the medium itself. Name it as such when it is
 true, and do not reach for it when the real reason is one of the other two — a
-contract's medium is reopened by that record and by nothing else.
+contract's medium is reopened by that record and by nothing else. A host that
+cannot render the admitted notation is a case of *the medium could not carry
+it*.
 
 **Last act:** `leaf-add` the `proof` leaf, under the family file's rule — which
 is conditional, and which a correction run discharges for you.

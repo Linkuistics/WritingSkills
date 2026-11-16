@@ -9,7 +9,9 @@
 # manifest and every manifest that a run supplies.
 art-works-in-the-contracts-medium	grove-art/SKILL.md	B	static({art})	Do not introduce a medium the contract does not name
 figure-carries-the-relation-and-states-its-role	grove-art/SKILL.md	B	static({art})	Every figure states its role
-declined-figure-names-one-of-three-reasons	grove-art/SKILL.md	B	static({art})	a contract's medium is reopened by that record and by nothing else
+declined-figure-names-one-of-three-reasons	grove-art/SKILL.md	B	static({art})	a contract's medium is reopened by that record and by nothing else. A host that cannot render the admitted notation is a case of *the medium could not carry it*.
+art-meets-the-figure-contract	grove-art/SKILL.md	B	static({art})	Every figure drawn or kept meets `FIGURE-FORMAT.md`, and `art` owns source and rendering agreement.
+art-owns-figure-text	grove-art/SKILL.md	B	static({art})	written in the prose contract's terms and read with the adjacent prose
 copy-edit-does-not-restructure	grove-copy-edit/SKILL.md	B	static({copy-edit})	a structural finding is sent back as a `draft` re-run leaf, never fixed here
 copy-edit-operative-tests	grove-copy-edit/SKILL.md	B	static({copy-edit})	A figure of speech replaced by the mechanism it stood for
 copy-edit-binds-the-teaching-rules	grove-copy-edit/SKILL.md	B+S	static({copy-edit})	The rules in `references/execute.md` under *Teaching the reader* bind this sentence work
