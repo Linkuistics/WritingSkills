@@ -20,7 +20,7 @@ set: [errexit, nounset, pipefail]
 
 vars:
   GROVE_REPOSITORY: https://github.com/Linkuistics/grove.git
-  GROVE_COMMIT: 4cfac62958815219ba5a71941674244a05ff9b56
+  GROVE_COMMIT: ca7f6c685209da7d0d86a4f8b51fad06114115ef
   GROVE_DIR: '{{.ROOT_DIR}}/.cache/grove/{{.GROVE_COMMIT}}'
   PACK: plugins/writing
   HOOKS_PLUGIN: plugins/writing/craft/technical-communication

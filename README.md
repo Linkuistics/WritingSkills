@@ -241,9 +241,11 @@ repository.
 The three `check:tc-*` tasks are the checks of `technical-communication`. They
 came from Grove's `scripts/check.sh` and need no Grove checkout.
 
-`GROVE_COMMIT` names Grove commit `4cfac62958815219ba5a71941674244a05ff9b56`, which removed Grove's own
-copies of the craft skills, their hooks and their documents. Grove's copies of
-the editorial skills went earlier. The pack passes alone. The aggregate reads
+`GROVE_COMMIT` names Grove commit `ca7f6c685209da7d0d86a4f8b51fad06114115ef`.
+That commit adds the document contract, the figure contract and the house
+style to Grove's spine, and the stage skills read them. It is later than the
+commits that removed Grove's copies of the editorial skills, the craft skills,
+their hooks and their documents. The pack passes alone. The aggregate reads
 each editorial skill and each moved rule once.
 
 ## Tool requirements
@@ -297,8 +299,8 @@ it.
 
 Grove commit `31ec9117c9dacfe993e80313addd432f2930d679` removed Grove's copies
 of the editorial files. Grove commit `4cfac62958815219ba5a71941674244a05ff9b56` removed Grove's copies of the
-craft skills, the hooks and the moved documents. `GROVE_COMMIT` names the
-second commit.
+craft skills, the hooks and the moved documents. `GROVE_COMMIT` names a later
+commit, which keeps both removals.
 
 The move changed the first two paragraphs of each kind skill. The first
 paragraph is now the opening of Grove's external pack contract, and the second
