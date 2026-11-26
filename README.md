@@ -1,5 +1,11 @@
 # WritingSkills
 
+> **Archived.** This repository moved into
+> [Ravel](https://github.com/Linkuistics/Ravel), in
+> [`packs/writing/`](https://github.com/Linkuistics/Ravel/tree/main/packs/writing). Make each
+> change there. This repository is read-only. It keeps the history from
+> before the move.
+
 WritingSkills is the writing pack of
 [Grove](https://github.com/Linkuistics/grove). It ships Grove's editorial
 session kinds, their shared procedure and two writing craft skills as agent
